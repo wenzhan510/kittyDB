@@ -19,6 +19,7 @@ class CreateColumnsTable extends Migration
             $table->integer('parent_column_id')->default(0)->index();
             $table->string('type')->nullable();
             $table->string('name')->nullable();
+            $table->text('explanation')->nullable();
             $table->integer('order_by')->default(0);
             $table->json('rules')->nullable();
             $table->timestamps();
