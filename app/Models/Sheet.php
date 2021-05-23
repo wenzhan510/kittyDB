@@ -9,6 +9,8 @@ class Sheet extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // protected $casts = [
     //     'format' => 'json',
     // ];
@@ -18,11 +20,11 @@ class Sheet extends Model
      */
     public function contents()
     {
-        return $this->hasMany(Content::class);
+        return $this->hasMany(Content::class)->orderBy('order_by');
     }
 
     public function columns()
     {
-        return $this->hasMany(Column::class);
+        return $this->hasMany(Column::class)->orderBy('order_by');
     }
 }

@@ -9,6 +9,8 @@ class Column extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     protected $casts = [
         'rules' => 'json',
     ];

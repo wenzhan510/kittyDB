@@ -15,6 +15,7 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
+            $table->integer('order_by')->default(0);
             $table->integer('sheet_id')->index();
             $table->json('data')->nullable();
             $table->integer('created_by_id')->default(0);

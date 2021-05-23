@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Column;
+use App\Models\Sheet;
 use Illuminate\Http\Request;
 
 class ColumnController extends Controller
@@ -12,7 +13,7 @@ class ColumnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Sheet $sheet)
     {
         //
     }
@@ -22,9 +23,9 @@ class ColumnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Sheet $sheet)
     {
-        //
+        return view('column.create', compact('sheet'));
     }
 
     /**
@@ -33,9 +34,17 @@ class ColumnController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Sheet $sheet, Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|min:1|max:190',
+            'type' => 'required|string|min:1|max:190',
+            'explanation' => 'nullable|string',
+        ]);
+        $new_column = $request->only(['name','type','explanation']);
+        $new_column['sheet_id']=$sheet->id;
+        $column = Column::create($new_column);
+        return redirect('/sheet/'.$sheet->id);
     }
 
     /**
@@ -44,7 +53,7 @@ class ColumnController extends Controller
      * @param  \App\Models\Column  $column
      * @return \Illuminate\Http\Response
      */
-    public function show(Column $column)
+    public function show(Sheet $sheet, Column $column)
     {
         //
     }
@@ -55,7 +64,7 @@ class ColumnController extends Controller
      * @param  \App\Models\Column  $column
      * @return \Illuminate\Http\Response
      */
-    public function edit(Column $column)
+    public function edit(Sheet $sheet, Column $column)
     {
         //
     }
@@ -67,7 +76,7 @@ class ColumnController extends Controller
      * @param  \App\Models\Column  $column
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Column $column)
+    public function update(Request $request, Sheet $sheet, Column $column)
     {
         //
     }
@@ -78,7 +87,7 @@ class ColumnController extends Controller
      * @param  \App\Models\Column  $column
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Column $column)
+    public function destroy(Sheet $sheet, Column $column)
     {
         //
     }
