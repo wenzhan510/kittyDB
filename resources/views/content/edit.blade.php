@@ -28,7 +28,7 @@
                         @case('str')
                         <div class="form-group row">
                             <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div>{{$column->explanation}}</div>
+                            <div >{{$column->explanation}}</div>
 
                             <div class="col-md-6">
                                 <input id="{{$column->name}}" type="text" class="form-control " name="{{$column->name}}" value="{{array_key_exists($column->name, $content->data)? $content->data[$column->name]:''}}">

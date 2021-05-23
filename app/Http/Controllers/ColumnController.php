@@ -40,8 +40,9 @@ class ColumnController extends Controller
             'name' => 'required|string|min:1|max:190',
             'type' => 'required|string|min:1|max:190',
             'explanation' => 'nullable|string',
+            'parent_column_id' => 'required|integer|min:0',
         ]);
-        $new_column = $request->only(['name','type','explanation']);
+        $new_column = $request->only(['name','type','explanation','parent_column_id']);
         $new_column['sheet_id']=$sheet->id;
         $column = Column::create($new_column);
         return redirect('/sheet/'.$sheet->id);
@@ -66,7 +67,7 @@ class ColumnController extends Controller
      */
     public function edit(Sheet $sheet, Column $column)
     {
-        //
+        return view('column.edit', compact('sheet','column'));
     }
 
     /**
@@ -78,7 +79,17 @@ class ColumnController extends Controller
      */
     public function update(Request $request, Sheet $sheet, Column $column)
     {
-        //
+        // dd($request->all());
+        $this->validate($request, [
+            'name' => 'required|string|min:1|max:190',
+            'order_by' => 'required|integer|min:0',
+            'type' => 'required|string|min:1|max:190',
+            'explanation' => 'nullable|string',
+            'parent_column_id' => 'required|integer|min:0',
+        ]);
+        $new_column = $request->only(['name','order_by', 'type','explanation','parent_column_id']);
+        $column->update($new_column);
+        return redirect('/sheet/'.$sheet->id);
     }
 
     /**

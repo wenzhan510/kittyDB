@@ -14,16 +14,25 @@
             </div>
 
             <div class="card">
-                <div class="card-header">创建列</div>
+                <div class="card-header">修改列</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('sheet.column.store', ['sheet'=>$sheet->id]) }}">
+
+                    <form method="POST" action="{{ route('sheet.column.update', ['sheet'=>$sheet->id,'column'=>$column->id]) }}">
                         @csrf
+                        @method('PATCH')
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">列名称</label>
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{$column->name}}" required autocomplete="name" autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="order_by" class="col-md-4 col-form-label text-md-right">列顺序</label>
+                            <div class="col-md-6">
+                                <input id="order_by" type="number" class="form-control" name="order_by" value="{{ $column->order_by }}" >
                             </div>
                         </div>
 
@@ -33,7 +42,7 @@
                                 @foreach(config('constants.data_types') as $type_name => $type_full_name)
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="type" value="{{$type_name}}">
+                                        <input class="form-check-input" type="radio" name="type" value="{{$type_name}}" {{$column->type==$type_name? 'checked':''}}>
                                         {{$type_full_name}}
                                     </label>
                                 </div>
@@ -47,19 +56,20 @@
                                 <select class="custom-select" name="parent_column_id">
                                     <option value="0">无上级</option>
                                     @foreach($sheet->columns->whereIn('type',['array','json']) as $parent_column)
-                                    <option value="{{$parent_column->id}}">{{$parent_column->name}}</option>
+                                    <option value="{{$parent_column->id}}"{{$parent_column->id==$column->parent_column_id?'selected':''}}>{{$parent_column->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
 
+
                         <div class="form-group row">
                             <label for="explanation" class="col-md-4 col-form-label text-md-right">本列填写须知（可不填）</label>
                             <div class="col-md-6">
-                                <textarea class="form-control" id="explanation" rows="4" name="explanation"></textarea>
+                                <textarea class="form-control" id="explanation" rows="4" name="explanation">{{$column->explanation}}</textarea>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">新建列</button>
+                        <button type="submit" class="btn btn-primary">修改列</button>
                     </form>
                 </div>
             </div>

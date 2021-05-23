@@ -28,17 +28,16 @@
                         <thead>
                           <tr>
                             <th scope="col">名称</th>
+                            <th scope="col">上级列</th>
+                            <th scope="col">顺序</th>
                             <th scope="col">类型</th>
                             <th scope="col">填写须知</th>
+                            <th scope="col"></th>
                           </tr>
                         </thead>
                         <tbody>
-                            @foreach($sheet->columns as $column)
-                            <tr>
-                                <td>{{$column->name}}</td>
-                                <td>{{$column->type}}</td>
-                                <td>{{$column->explanation}}</td>
-                            </tr>
+                            @foreach($sheet->columns->where('parent_column_id',0) as $column)
+                            @include('sheet._column', ['column' => $column, 'parent_column' => ''])
                             @endforeach
                         </tbody>
                     </table>
