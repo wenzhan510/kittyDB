@@ -17,6 +17,7 @@ class CreateContentsTable extends Migration
             $table->id();
             $table->integer('order_by')->default(0);
             $table->integer('sheet_id')->index();
+            $table->string('name')->nullable()->index();
             $table->json('data')->nullable();
             $table->integer('created_by_id')->default(0);
             $table->integer('updated_by_id')->default(0);

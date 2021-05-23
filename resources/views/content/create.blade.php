@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">表单详情</div>
                 <div class="card-body">
@@ -13,58 +13,29 @@
                 </div>
             </div>
 
-
-            <div class="card">
-                <div class="card-header">新增内容
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('sheet.content.store', $sheet->id) }}">
-                        @csrf
-
-                        @foreach($sheet->columns as $column)
-
-                        @switch($column->type)
-                        @case('str')
+            <form method="POST" action="{{ route('sheet.content.store', $sheet->id) }}">
+                @csrf
+                <div class="card">
+                    <div class="card-header">新增内容
+                    </div>
+                    <div class="card-body">
                         <div class="form-group row">
-                            <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div>{{$column->explanation}}</div>
-
-                            <div class="col-md-6">
-                                <input id="{{$column->name}}" type="text" class="form-control " name="{{$column->name}}" value="{{ old($column->name) }}">
+                            <div class="col-md-10 offset-md-1">
+                                <div>
+                                    <label for="name" class="col-form-label">Name(必填,str)</label>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control " name="name" value="{{ old('name') }}">
+                                </div>
                             </div>
                         </div>
-                        @break
-
-                        @case('txt')
-                        <div class="form-group row">
-                            <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div>{{$column->explanation}}</div>
-
-                            <div class="col-md-6">
-                                <textarea id="{{$column->name}}" class="form-control" name="{{$column->name}}" rows="4"></textarea>
-                            </div>
-                        </div>
-                        @break
-
-                        @case('int')
-                        <div class="form-group row">
-                            <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div>{{$column->explanation}}</div>
-
-                            <div class="col-md-6">
-                                <input id="{{$column->name}}" type="number" class="form-control " name="{{$column->name}}" value="{{ old($column->name) }}">
-                            </div>
-                        </div>
-                        @break
-
-                        @default
-                        有待施工
-                        @endswitch
+                        @foreach($sheet->columns->where('parent_column_id',0) as $column)
+                        @include('content._fill_content', ['column' => $column, 'array_id' => -1])
                         @endforeach
                         <button type="submit" class="btn btn-primary">提交</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

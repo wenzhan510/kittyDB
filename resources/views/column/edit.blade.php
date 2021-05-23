@@ -49,19 +49,17 @@
                                 @endforeach
                             </div>
                         </div>
-
+                        @if($column->type=='link')
                         <div class="form-group row">
-                            <label for="parent_column_id" class="col-md-4 col-form-label text-md-right">上级列</label>
+                            <label for="explanation" class="col-md-4 col-form-label text-md-right">Rules(JSON)
+                                <span>例如本列限定Item表，那么就输入{"sheet_limit":"Item"}</span>
+                            </label>
+
                             <div class="col-md-6">
-                                <select class="custom-select" name="parent_column_id">
-                                    <option value="0">无上级</option>
-                                    @foreach($sheet->columns->whereIn('type',['array','json']) as $parent_column)
-                                    <option value="{{$parent_column->id}}"{{$parent_column->id==$column->parent_column_id?'selected':''}}>{{$parent_column->name}}</option>
-                                    @endforeach
-                                </select>
+                                <textarea class="form-control" id="rules" rows="4" name="rules">{{$column->rules}}</textarea>
                             </div>
                         </div>
-
+                        @endif
 
                         <div class="form-group row">
                             <label for="explanation" class="col-md-4 col-form-label text-md-right">本列填写须知（可不填）</label>

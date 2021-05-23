@@ -56,9 +56,10 @@ class SheetController extends Controller
     public function show(Sheet $sheet)
     {
         $sheet->load('contents','columns');
+        $allContents = \App\Models\Content::all();
         // $row = $sheet->contents[0];
         // return $row->data['money'];
-        return view('sheet.show', compact('sheet'));
+        return view('sheet.show', compact('sheet','allContents'));
     }
 
     /**

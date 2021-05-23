@@ -42,18 +42,6 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="parent_column_id" class="col-md-4 col-form-label text-md-right">上级列</label>
-                            <div class="col-md-6">
-                                <select class="custom-select" name="parent_column_id">
-                                    <option value="0">无上级</option>
-                                    @foreach($sheet->columns->whereIn('type',['array','json']) as $parent_column)
-                                    <option value="{{$parent_column->id}}">{{$parent_column->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label for="explanation" class="col-md-4 col-form-label text-md-right">本列填写须知（可不填）</label>
                             <div class="col-md-6">
                                 <textarea class="form-control" id="explanation" rows="4" name="explanation"></textarea>

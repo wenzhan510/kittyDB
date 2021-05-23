@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">表单详情</div>
                 <div class="card-body">
@@ -13,59 +13,30 @@
                 </div>
             </div>
 
-
-            <div class="card">
-                <div class="card-header">内容修改
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('sheet.content.update', ['sheet'=>$sheet->id,'content'=>$content->id]) }}">
-                        @csrf
-                        @method('PATCH')
-
+            <form method="POST" action="{{ route('sheet.content.update', ['sheet'=>$sheet->id,'content'=>$content->id]) }}">
+                @csrf
+                @method('PATCH')
+                <div class="card">
+                    <div class="card-header">修改内容
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-10 offset-md-1">
+                                <div>
+                                    <label for="name" class="col-form-label">Name(必填,str)</label>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control " name="name" value="{{ $content->name }}">
+                                </div>
+                            </div>
+                        </div>
                         @foreach($sheet->columns as $column)
-
-                        @switch($column->type)
-                        @case('str')
-                        <div class="form-group row">
-                            <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div >{{$column->explanation}}</div>
-
-                            <div class="col-md-6">
-                                <input id="{{$column->name}}" type="text" class="form-control " name="{{$column->name}}" value="{{array_key_exists($column->name, $content->data)? $content->data[$column->name]:''}}">
-                            </div>
-                        </div>
-                        @break
-
-                        @case('txt')
-                        <div class="form-group row">
-                            <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div>{{$column->explanation}}</div>
-
-                            <div class="col-md-6">
-                                <textarea id="{{$column->name}}" class="form-control" name="{{$column->name}}" rows="4">{{array_key_exists($column->name, $content->data)? $content->data[$column->name]:''}}</textarea>
-                            </div>
-                        </div>
-                        @break
-
-                        @case('int')
-                        <div class="form-group row">
-                            <label for="{{$column->name}}" class="col-md-4 col-form-label text-md-right">{{$column->name}}({{$column->type}})</label>
-                            <div>{{$column->explanation}}</div>
-
-                            <div class="col-md-6">
-                                <input id="{{$column->name}}" type="number" class="form-control " name="{{$column->name}}" value="{{array_key_exists($column->name, $content->data)? $content->data[$column->name]:''}}">
-                            </div>
-                        </div>
-                        @break
-
-                        @default
-                        有待施工
-                        @endswitch
+                        @include('content._fill_content', ['column' => $column, 'array_id' => -1, 'is_edit' => True])
                         @endforeach
                         <button type="submit" class="btn btn-primary">提交</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
