@@ -106,14 +106,15 @@ class SheetController extends Controller
     public function download()
     {
         $file = $this->make_json_output(Sheet::with('contents','columns')->get());
-        $file_name = \Carbon\Carbon::now()->format('Y-m-d').".json";
-        $headers = [
-            'Content-Type' => 'text; charset=utf-8',
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => "attachment; filename={$file_name}",
-        ];
+        return $file;
+        // $file_name = \Carbon\Carbon::now()->format('Y-m-d').".json";
+        // $headers = [
+        //     'Content-Type' => 'text; charset=utf-8',
+        //     'Content-Description' => 'File Transfer',
+        //     'Content-Disposition' => "attachment; filename={$file_name}",
+        // ];
 
-        return response($file, 200, $headers);
+        // return response($file, 200, $headers);
     }
 
     public function make_json_output($sheets)
