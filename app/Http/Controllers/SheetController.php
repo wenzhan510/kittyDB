@@ -105,8 +105,8 @@ class SheetController extends Controller
 
     public function download()
     {
-        $file = Sheet::with('contents','columns')->get()->toArray();
-        $file_name = '';
+        $file = $this->make_json_output(Sheet::with('contents','columns')->get());
+        $file_name = \Carbon\Carbon::now()->format('Y-m-d').".json";
         $headers = [
             'Content-Type' => 'text; charset=utf-8',
             'Content-Description' => 'File Transfer',
@@ -114,5 +114,24 @@ class SheetController extends Controller
         ];
 
         return response($file, 200, $headers);
+    }
+
+    public function make_json_output($sheets)
+    {
+        $data = [];
+        foreach($sheets as $sheet){
+
+            $data[$sheet->name] = [];
+            foreach($sheet->contents as $content){
+                $content_data = [];
+                $content_data['id'] = $content->id;
+                $content_data['name'] = $content->name;
+                foreach($sheet->columns as $column){
+                    $content_data[$column->name] = array_key_exists($column->name, $content->data) ? $content->data[$column->name]: null;
+                }
+                array_push($data[$sheet->name], $content_data);
+            }
+        }
+        return json_encode($data);
     }
 }

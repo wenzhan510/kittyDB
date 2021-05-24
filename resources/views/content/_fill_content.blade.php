@@ -35,15 +35,15 @@
 
         @case('link')
         <div>
-            <?php $i = 1 ?>
+            <?php $i = 1; $link_contents = $column->allowed_link_contents() ?>
             @if(isset($is_edit))
             @foreach ($old_value as $key => $value)
-            @include('content._fill_link',['i'=>$i,'key'=>$key, 'value'=>$value])
+            @include('content._fill_link',['i'=>$i,'key'=>$key, 'value'=>$value, 'link_contents' => $link_contents])
             <?php $i += 1 ?>
             @endforeach
             @endif
-            @foreach(range($i,$i+1) as $i)
-            @include('content._fill_link',['i'=>$i,'key'=>null, 'value'=>null])
+            @foreach(range($i,$i+4) as $i)
+            @include('content._fill_link',['i'=>$i,'key'=>null, 'value'=>null, 'link_contents' => $link_contents])
             @endforeach
         </div>
         @break
