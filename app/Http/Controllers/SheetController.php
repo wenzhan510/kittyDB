@@ -132,6 +132,7 @@ class SheetController extends Controller
                 $data[$sheet->name][$content->id] = $content_data;
             }
         }
-        return json_encode($data);
+        // return json_encode($data);
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 }
