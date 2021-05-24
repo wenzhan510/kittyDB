@@ -125,12 +125,11 @@ class SheetController extends Controller
             $data[$sheet->name] = [];
             foreach($sheet->contents as $content){
                 $content_data = [];
-                $content_data['id'] = $content->id;
                 $content_data['name'] = $content->name;
                 foreach($sheet->columns as $column){
                     $content_data[$column->name] = array_key_exists($column->name, $content->data) ? $content->data[$column->name]: null;
                 }
-                array_push($data[$sheet->name], $content_data);
+                $data[$sheet->name][$content->id] = $content_data;
             }
         }
         return json_encode($data);
