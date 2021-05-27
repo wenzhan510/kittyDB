@@ -36,7 +36,7 @@
         @case('link')
         <div>
             <?php $i = 1; $link_contents = $column->allowed_link_contents() ?>
-            @if(isset($is_edit))
+            @if(isset($is_edit)&&is_array($old_value))
             @foreach ($old_value as $key => $value)
             @include('content._fill_link',['i'=>$i,'key'=>$key, 'value'=>$value, 'link_contents' => $link_contents])
             <?php $i += 1 ?>
